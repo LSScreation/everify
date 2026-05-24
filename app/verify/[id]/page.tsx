@@ -98,7 +98,7 @@ export default function VerifyPage() {
 <div className="flex justify-center mt-8">
   <div className="bg-white p-4 rounded-3xl shadow-lg">
     <QRCodeCanvas
-      value="http://192.168.8.110:3000/verify/test"
+      value="https://everify-nine.vercel.app/verify/test"
       size={160}
     />
   </div>

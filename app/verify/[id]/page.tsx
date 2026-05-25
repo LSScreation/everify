@@ -1,15 +1,17 @@
 "use client";
 
 import React from "react";
-import Link from "next/link"; 
+import Link from "next/link";
 import { db } from "@/lib/firebase";
 import { QRCodeCanvas } from "qrcode.react";
+
 import {
   collection,
   getDocs,
   query,
   where,
 } from "firebase/firestore";
+
 export default function VerifyPage({
   params,
 }: {
@@ -17,32 +19,82 @@ export default function VerifyPage({
 }) {
 
   const { id } = React.use(params);
-const [student, setStudent] = React.useState<any>(null);
 
-React.useEffect(() => {
+  const [student, setStudent] = React.useState<any>(null);
+  const [loading, setLoading] = React.useState(true);
 
-  const fetchStudent = async () => {
+  React.useEffect(() => {
 
-    const q = query(
-      collection(db, "students"),
-      where("certificateId", "==", id)
+    const fetchStudent = async () => {
+
+      const q = query(
+        collection(db, "students"),
+        where("certificateId", "==", id)
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        setStudent(querySnapshot.docs[0].data());
+      }
+
+      setLoading(false);
+    };
+
+    fetchStudent();
+
+  }, [id]);
+
+
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-3xl font-bold">
+        Loading...
+      </div>
     );
+  }
+console.log(student);
 
-    const querySnapshot = await getDocs(q);
-console.log(querySnapshot.empty);
-console.log(querySnapshot.docs);
-    if (!querySnapshot.empty) {
-      setStudent(querySnapshot.docs[0].data());
-    }
 
-  };
-
-  fetchStudent();
-
-}, [id]);
   if (!student) {
-  return <div>Loading...</div>;
-}
+    return (
+
+      <main className="min-h-screen bg-red-50 flex items-center justify-center p-6">
+
+        <div className="bg-white max-w-md w-full rounded-[35px] shadow-2xl p-10 text-center border border-red-100">
+
+          <div className="text-8xl">
+            ❌
+          </div>
+
+          <h1 className="text-5xl font-black text-red-600 mt-6">
+            Certificate Not Found
+          </h1>
+
+          <p className="text-slate-500 text-xl mt-6 leading-relaxed">
+            This certificate ID does not exist in our official verification database.
+          </p>
+
+          <div className="bg-red-100 text-red-700 px-6 py-3 rounded-full inline-block mt-8 font-bold">
+            INVALID CERTIFICATE
+          </div>
+
+          <a
+            href="/"
+            className="block mt-10 bg-black text-white py-5 rounded-3xl text-2xl font-bold"
+          >
+            Back To Home
+          </a>
+
+        </div>
+
+      </main>
+
+    );
+  }
+
+
 
   return (
     <main className="min-h-screen bg-slate-100 p-6 flex justify-center">

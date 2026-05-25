@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { initializeFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { getAuth } from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyD-mcYTDK-x57Jlxv7-RERvpZ4xfERQzA4",
   authDomain: "everify-system.firebaseapp.com",
@@ -14,3 +15,4 @@ const app = initializeApp(firebaseConfig);
 console.log("Firebase Connected");
 export const db = initializeFirestore(app, {});
 export const storage = getStorage(app);
+export const auth = getAuth(app);

@@ -1,32 +1,35 @@
 "use client";
-
-import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-
+import { useState } from "react";
 export default function Home() {
-
-  const [certificateId, setCertificateId] = useState("");
   const router = useRouter();
 
+const [certificateId, setCertificateId] = useState("");
   return (
-    <main className="min-h-screen bg-[#f5f7ff] flex flex-col">
+    <main className="min-h-screen bg-white flex flex-col">
 
       {/* TOP BAR */}
-      <div className="flex items-center justify-between px-6 py-6">
+      <div className="flex items-center justify-between px-8 py-6">
 
-        <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-2xl bg-blue-100 flex items-center justify-center text-2xl">
+        <div className="flex items-center gap-4">
+
+          <div className="w-11 h-11 rounded-2xl bg-blue-100 flex items-center justify-center">
             🛡️
           </div>
 
           <h1 className="text-3xl font-bold text-slate-900">
             everify.lk
           </h1>
+
         </div>
 
-        <button className="text-slate-500 font-medium">
+        <Link
+          href="/admin/login"
+          className="text-slate-500 font-medium"
+        >
           Staff Portal Login
-        </button>
+        </Link>
 
       </div>
 
@@ -40,32 +43,27 @@ export default function Home() {
             Verification
           </h2>
 
-          <div className="bg-white mt-12 rounded-[35px] shadow-xl border border-slate-200 p-5">
+          <div className="bg-white shadow-2xl rounded-[35px] p-6 mt-12 border border-slate-100">
 
             <input
-              type="text"
-              placeholder="Enter Certificate ID"
-              value={certificateId}
-              onChange={(e) => setCertificateId(e.target.value)}
-              className="w-full h-16 rounded-2xl border border-slate-200 px-6 text-2xl outline-none"
-            />
+  type="text"
+  placeholder="Enter Certificate ID"
+  value={certificateId}
+  onChange={(e) => setCertificateId(e.target.value)}
+  className="w-full h-16 border border-slate-200 rounded-2xl px-6 text-xl outline-none"
+/>
 
             <button
-              onClick={(e) => {
-                e.preventDefault();
-
-                if (certificateId.trim() !== "") {
-                  router.push(`/verify/${certificateId}`);
-                }
-              }}
-              className="w-full h-16 rounded-2xl bg-blue-600 text-white text-2xl font-bold mt-5 hover:bg-blue-700 transition"
-            >
-              Verify Now
-            </button>
+  onClick={() => router.push(`/verify/${certificateId}`)}
+  className="w-full h-16 bg-blue-700 hover:bg-blue-800 transition text-white rounded-2xl text-2xl font-bold mt-5"
+>
+  Verify Now
+</button>
+  
 
           </div>
 
-          <p className="text-center text-slate-400 text-xl mt-6">
+          <p className="text-center text-slate-400 mt-8 text-xl">
             Example: AZ00*****
           </p>
 

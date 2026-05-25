@@ -242,7 +242,7 @@ console.log(querySnapshot.docs);
             <div className="bg-white p-4 rounded-3xl shadow-lg">
 
               <QRCodeCanvas
-                value={`http://192.168.8.110:3000/verify/${id}`}
+                value={`https://everify-nine.vercel.app/verify/${id}`}
                 size={160}
               />
 
